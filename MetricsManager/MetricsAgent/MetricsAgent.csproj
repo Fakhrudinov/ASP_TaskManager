@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>Fakhrudinov Alexander</Authors>
+    <Product>Metrics Agent</Product>
+    <Description>Learh C# ASP Net Core</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MetricsManager\MetricsManager.csproj" />
+  </ItemGroup>
+
+
+</Project>
