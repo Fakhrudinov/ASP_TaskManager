@@ -4,6 +4,8 @@ using MetricsAgent.DAL;
 using MetricsAgent.Responses;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using MetricsAgent.Requests;
+using AutoMapper;
 
 namespace MetricsAgent.Controllers
 {
@@ -13,12 +15,14 @@ namespace MetricsAgent.Controllers
     {
         private readonly ILogger<CpuMetricsController> _logger;
         private ICpuMetricsRepository repository;
+        private readonly IMapper mapper;
 
-        public CpuMetricsController(ILogger<CpuMetricsController> logger, ICpuMetricsRepository repository)
+        public CpuMetricsController(ILogger<CpuMetricsController> logger, ICpuMetricsRepository repository, IMapper mapper)
         {
             _logger = logger;
             _logger.LogDebug(1, "NLog встроен в CpuMetricsController");
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpGet("from/{fromTime}/to/{toTime}")]
@@ -37,7 +41,8 @@ namespace MetricsAgent.Controllers
             {
                 foreach (var metric in metrics)
                 {
-                    response.Metrics.Add(new Responses.CpuMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                    //response.Metrics.Add(new Responses.CpuMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                    response.Metrics.Add(mapper.Map<Responses.CpuMetricDto>(metric));
                 }
             }
 
@@ -57,6 +62,26 @@ namespace MetricsAgent.Controllers
 
         //    return Ok();
         //}
+
+        //[HttpGet("all")]// with auto Mapper
+        //public IActionResult GetAll()
+        //{
+        //    // задаем конфигурацию для мапера. Первый обобщенный параметр -- тип объекта источника, второй -- тип объекта в который перетекут данные из источника
+        //    var config = new MapperConfiguration(cfg => cfg.CreateMap<CpuMetric, CpuMetricDto>());
+        //    var m = config.CreateMapper();
+        //    IList<CpuMetric> metrics = repository.GetAll();
+        //    var response = new AllCpuMetricsResponse()
+        //    {
+        //        Metrics = new List<CpuMetricDto>()
+        //    };
+        //    foreach (var metric in metrics)
+        //    {
+        //        // добавляем объекты в ответ при помощи мапера
+        //        response.Metrics.Add(m.Map<CpuMetricDto>(metric));
+        //    }
+        //    return Ok(response);
+        //}
+
 
         //[HttpGet("all")]
         //public IActionResult GetAll()

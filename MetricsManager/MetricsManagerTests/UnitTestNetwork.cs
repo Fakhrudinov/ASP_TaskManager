@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
 using MetricsManager.DAL;
+using AutoMapper;
 
 namespace MetricsManagerTests
 {
@@ -14,12 +15,13 @@ namespace MetricsManagerTests
         private NetworkMetricsController controller;
         private Mock<INetWorkMetricsRepository> mock;
         private Mock<ILogger<NetworkMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public UnitTestNetwork()
         {
             mock = new Mock<INetWorkMetricsRepository>();
             logger = new Mock<ILogger<NetworkMetricsController>>();
-            controller = new NetworkMetricsController(logger.Object, mock.Object);
+            controller = new NetworkMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]

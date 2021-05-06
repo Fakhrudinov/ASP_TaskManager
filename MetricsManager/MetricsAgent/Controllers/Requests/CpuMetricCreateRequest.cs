@@ -2,7 +2,7 @@
 
 namespace MetricsAgent.Requests
 {
-    // нужен только для CREATE. пока такого нет. 
+    //нужен только для CREATE.
 
     //public class CpuMetricCreateRequest
     //{

@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MetricsManager.DAL;
 using System.Data.SQLite;
+using AutoMapper;
+using System;
 
 namespace MetricsManager
 {
@@ -22,6 +24,11 @@ namespace MetricsManager
         {
             services.AddControllers();
             ConfigureSqlLiteConnection(services);
+
+            var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
             services.AddScoped<IDotNetMetricsRepository, DotNetMetricsRepository>();
             services.AddScoped<IHddMetricsRepository, HddMetricsRepository>();
@@ -59,19 +66,21 @@ namespace MetricsManager
                 //добавляем новые таблицы
                 foreach (string name in tableNames)
                 {
-                    command.CommandText = $"CREATE TABLE {name}(id INTEGER PRIMARY KEY, value INT, time BIGINT);";
+                    command.CommandText = $"CREATE TABLE {name}(id INTEGER PRIMARY KEY, agent_id INT, value INT, time BIGINT);";
                     command.ExecuteNonQuery();
                 }
 
                 //добавим тестовые данные в таблицы
                 byte valueShifter = 0;//для различия в данных
+                Random rnd = new Random();
+
                 foreach (string name in tableNames)
                 {
                     for (int i = 0; i < 60; i += 5)
                     {
                         long time = System.DateTimeOffset.Parse("2021-05-01 00:" + i + ":00-00:00").ToUnixTimeSeconds();
 
-                        command.CommandText = $"INSERT INTO {name}(value, time) VALUES({i + valueShifter},{time});";
+                        command.CommandText = $"INSERT INTO {name}(value, agent_id, time) VALUES({i + valueShifter}, {rnd.Next(1, 4)}, {time});";
                         command.ExecuteNonQuery();
                     }
                     valueShifter++;

@@ -4,6 +4,7 @@ using MetricsManager.DAL;
 using MetricsManager.Responses;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace MetricsManager.Controllers
 {
@@ -13,12 +14,14 @@ namespace MetricsManager.Controllers
     {
         private readonly ILogger<CpuMetricsController> _logger;
         private ICpuMetricsRepository repository;
+        private readonly IMapper mapper;
 
-        public CpuMetricsController(ILogger<CpuMetricsController> logger, ICpuMetricsRepository repository)
+        public CpuMetricsController(ILogger<CpuMetricsController> logger, ICpuMetricsRepository repository, IMapper mapper)
         {
             _logger = logger;
             _logger.LogDebug(1, "NLog встроен в CpuMetricsController");
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
@@ -40,7 +43,8 @@ namespace MetricsManager.Controllers
             {
                 foreach (var metric in metrics)
                 {
-                    response.Metrics.Add(new Responses.CpuMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                    //response.Metrics.Add(new Responses.CpuMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                    response.Metrics.Add(mapper.Map<Responses.CpuMetricDto>(metric));
                 }
             }
 
@@ -54,7 +58,22 @@ namespace MetricsManager.Controllers
         {
             _logger.LogInformation($"{DateTime.Now.ToString("HH:mm:ss:fffffff")}: MetricsManager/api/cpumetrics/cluster/from/{fromTime}/to/{toTime}");
 
-            return Ok();
+            IList<CpuMetric> metrics = repository.GetMetricsFromAllClusterTimeToTime(fromTime.ToUnixTimeSeconds(), toTime.ToUnixTimeSeconds());
+
+            var response = new CpuMetricsResponse()
+            {
+                Metrics = new List<Responses.CpuMetricDto>()
+            };
+
+            if (metrics != null)
+            {
+                foreach (var metric in metrics)
+                {
+                    response.Metrics.Add(mapper.Map<Responses.CpuMetricDto>(metric));
+                }
+            }
+
+            return Ok(response);
         }
 
         //[HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}/percentiles/{percentile}")]

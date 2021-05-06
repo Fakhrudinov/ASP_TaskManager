@@ -5,8 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MetricsAgent.DAL;
 using System.Data.SQLite;
-
-
+using AutoMapper;
 
 namespace MetricsAgent
 {
@@ -24,6 +23,11 @@ namespace MetricsAgent
         {
             services.AddControllers();
             ConfigureSqlLiteConnection(services);
+
+            var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
             services.AddScoped<IDotNetMetricsRepository, DotNetMetricsRepository>();
             services.AddScoped<IHddMetricsRepository, HddMetricsRepository>();
