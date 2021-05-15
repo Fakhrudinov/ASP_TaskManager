@@ -30,5 +30,19 @@ namespace MetricsAgent.DAL
                     }).ToList();
             }
         }
+        public void Create(NetWorkMetric item)
+        {
+            using var connection = new SQLiteConnection(DataBaseConnectionSettings.ConnectionString);
+            {
+                //  запрос на вставку данных с плейсхолдерами для параметров
+                connection.Execute("INSERT INTO networkmetrics(value, time) VALUES(@value, @time)",
+                    // анонимный объект с параметрами запроса
+                    new
+                    {
+                        value = item.Value,
+                        time = item.Time.ToUniversalTime().ToUnixTimeSeconds()
+                    });
+            }
+        }
     }
 }
