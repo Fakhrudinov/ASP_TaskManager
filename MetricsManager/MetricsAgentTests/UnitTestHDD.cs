@@ -7,6 +7,7 @@ using Xunit;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace MetricsAgentTests
 {
@@ -15,12 +16,13 @@ namespace MetricsAgentTests
         private HddMetricsController controller;
         private Mock<IHddMetricsRepository> mock;
         private Mock<ILogger<HddMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public UnitTestHdd()
         {
             mock = new Mock<IHddMetricsRepository>();
             logger = new Mock<ILogger<HddMetricsController>>();
-            controller = new HddMetricsController(logger.Object, mock.Object);
+            controller = new HddMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]

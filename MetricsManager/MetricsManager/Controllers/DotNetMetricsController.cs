@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using MetricsManager.DAL;
 using MetricsManager.Responses;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 
 namespace MetricsManager.Controllers
 {
@@ -13,12 +14,14 @@ namespace MetricsManager.Controllers
     {
         private readonly ILogger<DotNetMetricsController> _logger;
         private IDotNetMetricsRepository repository;
+        private readonly IMapper mapper;
 
-        public DotNetMetricsController(ILogger<DotNetMetricsController> logger, IDotNetMetricsRepository repository)
+        public DotNetMetricsController(ILogger<DotNetMetricsController> logger, IDotNetMetricsRepository repository, IMapper mapper)
         {
             _logger = logger;
             _logger.LogDebug(1, "NLog встроен в DotNetMetricsController");
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
@@ -27,9 +30,24 @@ namespace MetricsManager.Controllers
             [FromRoute] DateTimeOffset fromTime,
             [FromRoute] DateTimeOffset toTime)
         {
-            _logger.LogInformation($"{DateTime.Now.ToString("HH:mm:ss:fffffff")}: MetricsManager/api/dotnetmetrics/agent/{agentId}/from/{fromTime}/to/{toTime}");
+            _logger.LogInformation($"{DateTime.Now.ToString("HH:mm:ss:fffffff")}: MetricsManager/api/Dotnetmetrics/agent/{agentId}/from/{fromTime}/to/{toTime}");
 
-            return Ok();
+            IList<DotNetMetric> metrics = repository.GetMetricsFromAgentIdTimeToTime(agentId, fromTime.ToUnixTimeSeconds(), toTime.ToUnixTimeSeconds());
+
+            var response = new DotNetMetricsResponse()
+            {
+                Metrics = new List<Responses.DotNetMetricDto>()
+            };
+
+            if (metrics != null)
+            {
+                foreach (var metric in metrics)
+                {
+                    response.Metrics.Add(mapper.Map<Responses.DotNetMetricDto>(metric));
+                }
+            }
+
+            return Ok(response);
         }
 
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
@@ -37,30 +55,25 @@ namespace MetricsManager.Controllers
             [FromRoute] DateTimeOffset fromTime,
             [FromRoute] DateTimeOffset toTime)
         {
-            _logger.LogInformation($"{DateTime.Now.ToString("HH:mm:ss:fffffff")}: MetricsManager/api/dotnetmetrics/cluster/from/{fromTime}/to/{toTime}");
+            _logger.LogInformation($"{DateTime.Now.ToString("HH:mm:ss:fffffff")}: MetricsManager/api/Dotnetmetrics/cluster/from/{fromTime}/to/{toTime}");
 
-            return Ok();
+            IList<DotNetMetric> metrics = repository.GetMetricsFromAllClusterTimeToTime(fromTime.ToUnixTimeSeconds(), toTime.ToUnixTimeSeconds());
+
+            var response = new DotNetMetricsResponse()
+            {
+                Metrics = new List<Responses.DotNetMetricDto>()
+            };
+
+            if (metrics != null)
+            {
+                foreach (var metric in metrics)
+                {
+                    response.Metrics.Add(mapper.Map<Responses.DotNetMetricDto>(metric));
+                }
+            }
+
+            return Ok(response);
         }
-
-        //[HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}/percentiles/{percentile}")]
-        //public IActionResult GetMetricsByPercentileFromAgent(
-        //    [FromRoute] int agentId,
-        //    [FromRoute] TimeSpan fromTime,
-        //    [FromRoute] TimeSpan toTime,
-        //    [FromRoute] Percentile percentile)
-        //{
-        //    return Ok();
-        //}
-
-
-        //[HttpGet("cluster/from/{fromTime}/to/{toTime}/percentiles/{percentile}")]
-        //public IActionResult GetMetricsByPercentileFromAllCluster(
-        //    [FromRoute] TimeSpan fromTime,
-        //    [FromRoute] TimeSpan toTime,
-        //    [FromRoute] Percentile percentile)
-        //{
-        //    return Ok();
-        //}
     }
 }
 

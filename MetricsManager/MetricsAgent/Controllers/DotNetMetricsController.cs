@@ -4,6 +4,7 @@ using MetricsAgent.DAL;
 using MetricsAgent.Responses;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace MetricsAgent.Controllers
 {
@@ -13,12 +14,14 @@ namespace MetricsAgent.Controllers
     {
         private readonly ILogger<DotNetMetricsController> _logger;
         private IDotNetMetricsRepository repository;
+        private readonly IMapper mapper;
 
-        public DotNetMetricsController(ILogger<DotNetMetricsController> logger, IDotNetMetricsRepository repository)
+        public DotNetMetricsController(ILogger<DotNetMetricsController> logger, IDotNetMetricsRepository repository, IMapper mapper)
         {
             _logger = logger;
             _logger.LogDebug(1, "NLog встроен в DotNetMetricsController");
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpGet("from/{fromTime}/to/{toTime}")]
@@ -37,7 +40,8 @@ namespace MetricsAgent.Controllers
             {
                 foreach (var metric in metrics)
                 {
-                    response.Metrics.Add(new Responses.DotNetMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                    //response.Metrics.Add(new Responses.DotNetMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                    response.Metrics.Add(mapper.Map<Responses.DotNetMetricDto>(metric));
                 }
             }
 

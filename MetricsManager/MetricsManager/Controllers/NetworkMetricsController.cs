@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using MetricsManager.DAL;
 using MetricsManager.Responses;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 
 namespace MetricsManager.Controllers
 {
@@ -13,12 +14,14 @@ namespace MetricsManager.Controllers
     {
         private readonly ILogger<NetworkMetricsController> _logger;
         private INetWorkMetricsRepository repository;
+        private readonly IMapper mapper;
 
-        public NetworkMetricsController(ILogger<NetworkMetricsController> logger, INetWorkMetricsRepository repository)
+        public NetworkMetricsController(ILogger<NetworkMetricsController> logger, INetWorkMetricsRepository repository, IMapper mapper)
         {
             _logger = logger;
             _logger.LogDebug(1, "NLog встроен в NetworkMetricsController");
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
@@ -27,40 +30,50 @@ namespace MetricsManager.Controllers
             [FromRoute] DateTimeOffset fromTime,
             [FromRoute] DateTimeOffset toTime)
         {
-            _logger.LogInformation($"{DateTime.Now.ToString("HH:mm:ss:fffffff")}: MetricsManager/api/networkmetrics/agent/{agentId}/from/{fromTime}/to/{toTime}");
+            _logger.LogInformation($"{DateTime.Now.ToString("HH:mm:ss:fffffff")}: MetricsManager/api/Networkmetrics/agent/{agentId}/from/{fromTime}/to/{toTime}");
 
-            return Ok();
+            IList<NetWorkMetric> metrics = repository.GetMetricsFromAgentIdTimeToTime(agentId, fromTime.ToUnixTimeSeconds(), toTime.ToUnixTimeSeconds());
+
+            var response = new NetWorkMetricsResponse()
+            {
+                Metrics = new List<Responses.NetWorkMetricDto>()
+            };
+
+            if (metrics != null)
+            {
+                foreach (var metric in metrics)
+                {
+                    response.Metrics.Add(mapper.Map<Responses.NetWorkMetricDto>(metric));
+                }
+            }
+
+            return Ok(response);
         }
 
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAllClusterTimeToTime(    
+        public IActionResult GetMetricsFromAllClusterTimeToTime(
             [FromRoute] DateTimeOffset fromTime,
             [FromRoute] DateTimeOffset toTime)
         {
-            _logger.LogInformation($"{DateTime.Now.ToString("HH:mm:ss:fffffff")}: MetricsManager/api/networkmetrics/cluster/from/{fromTime}/to/{toTime}");
+            _logger.LogInformation($"{DateTime.Now.ToString("HH:mm:ss:fffffff")}: MetricsManager/api/Networkmetrics/cluster/from/{fromTime}/to/{toTime}");
 
-            return Ok();
+            IList<NetWorkMetric> metrics = repository.GetMetricsFromAllClusterTimeToTime(fromTime.ToUnixTimeSeconds(), toTime.ToUnixTimeSeconds());
+
+            var response = new NetWorkMetricsResponse()
+            {
+                Metrics = new List<Responses.NetWorkMetricDto>()
+            };
+
+            if (metrics != null)
+            {
+                foreach (var metric in metrics)
+                {
+                    response.Metrics.Add(mapper.Map<Responses.NetWorkMetricDto>(metric));
+                }
+            }
+
+            return Ok(response);
         }
-
-        //[HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}/percentiles/{percentile}")]
-        //public IActionResult GetMetricsByPercentileFromAgent(
-        //    [FromRoute] int agentId,
-        //    [FromRoute] TimeSpan fromTime,
-        //    [FromRoute] TimeSpan toTime,
-        //    [FromRoute] Percentile percentile)
-        //{
-        //    return Ok();
-        //}
-
-
-        //[HttpGet("cluster/from/{fromTime}/to/{toTime}/percentiles/{percentile}")]
-        //public IActionResult GetMetricsByPercentileFromAllCluster(
-        //    [FromRoute] TimeSpan fromTime,
-        //    [FromRoute] TimeSpan toTime,
-        //    [FromRoute] Percentile percentile)
-        //{
-        //    return Ok();
-        //}
     }
 }
 

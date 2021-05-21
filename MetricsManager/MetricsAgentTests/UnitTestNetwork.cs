@@ -7,6 +7,7 @@ using Xunit;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace MetricsAgentTests
 {
@@ -15,12 +16,13 @@ namespace MetricsAgentTests
         private NetWorkMetricsController controller;
         private Mock<INetWorkMetricsRepository> mock;
         private Mock<ILogger<NetWorkMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public UnitTestNetWork()
         {
             mock = new Mock<INetWorkMetricsRepository>();
             logger = new Mock<ILogger<NetWorkMetricsController>>();
-            controller = new NetWorkMetricsController(logger.Object, mock.Object);
+            controller = new NetWorkMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]

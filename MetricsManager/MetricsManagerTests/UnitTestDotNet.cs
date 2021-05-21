@@ -4,8 +4,8 @@ using System;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Collections.Generic;
-using MetricsManager.DAL;
+using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 
 namespace MetricsManagerTests
 {
@@ -14,12 +14,13 @@ namespace MetricsManagerTests
         private DotNetMetricsController controller;
         private Mock<IDotNetMetricsRepository> mock;
         private Mock<ILogger<DotNetMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public DotNetControllerUnitTests()
         {
             mock = new Mock<IDotNetMetricsRepository>();
             logger = new Mock<ILogger<DotNetMetricsController>>();
-            controller = new DotNetMetricsController(logger.Object, mock.Object);
+            controller = new DotNetMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]

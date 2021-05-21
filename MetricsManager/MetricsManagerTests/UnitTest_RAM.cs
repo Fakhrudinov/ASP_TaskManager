@@ -4,8 +4,8 @@ using System;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Collections.Generic;
-using MetricsManager.DAL;
+using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 
 namespace MetricsManagerTests
 {
@@ -14,12 +14,13 @@ namespace MetricsManagerTests
         private RamMetricsController controller;
         private Mock<IRamMetricsRepository> mock;
         private Mock<ILogger<RamMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public RamControllerUnitTests()
         {
             mock = new Mock<IRamMetricsRepository>();
             logger = new Mock<ILogger<RamMetricsController>>();
-            controller = new RamMetricsController(logger.Object, mock.Object);
+            controller = new RamMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]

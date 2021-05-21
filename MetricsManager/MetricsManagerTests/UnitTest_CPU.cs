@@ -4,8 +4,8 @@ using System;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Collections.Generic;
-using MetricsManager.DAL;
+using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 
 namespace MetricsManagerTests
 {
@@ -14,12 +14,13 @@ namespace MetricsManagerTests
         private CpuMetricsController controller;
         private Mock<ICpuMetricsRepository> mock;
         private Mock<ILogger<CpuMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public CpuControllerUnitTests()
         {
             mock = new Mock<ICpuMetricsRepository>();
             logger = new Mock<ILogger<CpuMetricsController>>();
-            controller = new CpuMetricsController(logger.Object, mock.Object);
+            controller = new CpuMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]
@@ -51,37 +52,6 @@ namespace MetricsManagerTests
             // Assert
             _ = Assert.IsAssignableFrom<IActionResult>(result);
         }
-
-        //[Fact]
-        //public void GetMetricsByPercentileFromAgent_ReturnsOk()
-        //{
-        //    //Arrange
-        //    var agentId = 1;
-        //    var fromTime = TimeSpan.FromSeconds(0);
-        //    var toTime = TimeSpan.FromSeconds(100);
-        //    var percentile = MetricsManager.Percentile.P95;
-
-        //    //Act
-        //    var result = controller.GetMetricsByPercentileFromAgent(agentId, fromTime, toTime, percentile);
-
-        //    // Assert
-        //    _ = Assert.IsAssignableFrom<IActionResult>(result);
-        //}
-
-        //[Fact]
-        //public void GetMetricsByPercentileFromAllCluster_ReturnsOk()
-        //{
-        //    //Arrange
-        //    var fromTime = TimeSpan.FromSeconds(0);
-        //    var toTime = TimeSpan.FromSeconds(100);
-        //    var percentile = MetricsManager.Percentile.P95;
-
-        //    //Act
-        //    var result = controller.GetMetricsByPercentileFromAllCluster(fromTime, toTime, percentile);
-
-        //    // Assert
-        //    _ = Assert.IsAssignableFrom<IActionResult>(result);
-        //}
     }
 }
 
