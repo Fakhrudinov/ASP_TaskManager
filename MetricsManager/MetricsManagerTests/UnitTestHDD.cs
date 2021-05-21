@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
 using MetricsManager.DAL;
+using AutoMapper;
+
 namespace MetricsManagerTests
 {
     public class UnitTestHDD
@@ -13,12 +15,13 @@ namespace MetricsManagerTests
         private HddMetricsController controller;
         private Mock<IHddMetricsRepository> mock;
         private Mock<ILogger<HddMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public UnitTestHDD()
         {
             mock = new Mock<IHddMetricsRepository>();
             logger = new Mock<ILogger<HddMetricsController>>();
-            controller = new HddMetricsController(logger.Object, mock.Object);
+            controller = new HddMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]
