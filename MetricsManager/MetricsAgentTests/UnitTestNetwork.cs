@@ -1,31 +1,59 @@
-﻿using System;
-using MetricsAgent.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using MetricsAgent.Controllers;
+using MetricsAgent.DAL;
+using MetricsAgent;
+using Moq;
+using System;
 using Xunit;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MetricsAgentTests
 {
-    public class UnitTestNetwork
+    public class UnitTestNetWork
     {
         private NetWorkMetricsController controller;
+        private Mock<INetWorkMetricsRepository> mock;
+        private Mock<ILogger<NetWorkMetricsController>> logger;
 
-        public UnitTestNetwork()
+        public UnitTestNetWork()
         {
-            controller = new NetWorkMetricsController();
+            mock = new Mock<INetWorkMetricsRepository>();
+            logger = new Mock<ILogger<NetWorkMetricsController>>();
+            controller = new NetWorkMetricsController(logger.Object, mock.Object);
         }
 
         [Fact]
-        public void GetMetricsNetWorkFromTimeToTime_ReturnsOk()
+        public void GetFromTimeToTime_Test()
         {
-            //Arrange
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
+            // Arrange
+            var returnList = new List<NetWorkMetric>();
+            mock.Setup(repository => repository.GetFromTimeToTime(
+                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds(),
+                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds()))
+                .Returns(returnList);
 
-            //Act
-            var result = controller.GetMetricsNetWorkFromTimeToTime(fromTime, toTime);
+            // Act
+            IActionResult result = controller.GetFromTimeToTime(
+                DateTimeOffset.FromUnixTimeSeconds(10).ToUniversalTime(),
+                DateTimeOffset.FromUnixTimeSeconds(100).ToUniversalTime());
 
             // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            mock.Verify(repository => repository.GetFromTimeToTime(10, 100), Times.AtLeastOnce());
         }
+
+        //[Fact]
+        //public void GetMetricsNetWorkFromTimeToTime_ReturnsOk()
+        //{
+        //    //Arrange
+        //    var fromTime = TimeSpan.FromSeconds(0);
+        //    var toTime = TimeSpan.FromSeconds(100);
+
+        //    //Act
+        //    var result = controller.GetMetricsNetWorkFromTimeToTime(fromTime, toTime);
+
+        //    // Assert
+        //    _ = Assert.IsAssignableFrom<IActionResult>(result);
+        //}
     }
 }

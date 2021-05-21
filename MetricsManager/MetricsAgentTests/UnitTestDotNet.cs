@@ -1,31 +1,64 @@
-﻿using System;
-using MetricsAgent.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using MetricsAgent.Controllers;
+using MetricsAgent.DAL;
+using MetricsAgent;
+using Moq;
+using System;
 using Xunit;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MetricsAgentTests
 {
     public class UnitTestDotNet
     {
         private DotNetMetricsController controller;
+        private Mock<IDotNetMetricsRepository> mock;
+        private Mock<ILogger<DotNetMetricsController>> logger;
 
         public UnitTestDotNet()
         {
-            controller = new DotNetMetricsController();
+            mock = new Mock<IDotNetMetricsRepository>();
+            logger = new Mock<ILogger<DotNetMetricsController>>();
+            controller = new DotNetMetricsController(logger.Object, mock.Object);
         }
 
         [Fact]
-        public void GetMetricsDotNetErrorsCountFromTimeToTime_ReturnsOk()
+        public void GetFromTimeToTime_Test()
         {
-            //Arrange
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
+            // Arrange
+            var returnList = new List<DotNetMetric>();
+            mock.Setup(repository => repository.GetFromTimeToTime(
+                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds(),
+                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds()))
+                .Returns(returnList);
 
-            //Act
-            var result = controller.GetMetricsDotNetErrorsCountFromTimeToTime(fromTime, toTime);
+            // Act
+            IActionResult result = controller.GetFromTimeToTime(
+                DateTimeOffset.FromUnixTimeSeconds(10).ToUniversalTime(),
+                DateTimeOffset.FromUnixTimeSeconds(100).ToUniversalTime());
 
             // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            mock.Verify(repository => repository.GetFromTimeToTime(10, 100), Times.AtLeastOnce());
         }
     }
 }
+
+        //public UnitTestDotNet()
+        //{
+        //    controller = new DotNetMetricsController();
+        //}
+
+        //[Fact]
+        //public void GetMetricsDotNetErrorsCountFromTimeToTime_ReturnsOk()
+        //{
+        //    //Arrange
+        //    var fromTime = TimeSpan.FromSeconds(0);
+        //    var toTime = TimeSpan.FromSeconds(100);
+
+        //    //Act
+        //    var result = controller.GetMetricsDotNetErrorsCountFromTimeToTime(fromTime, toTime);
+
+        //    // Assert
+        //    _ = Assert.IsAssignableFrom<IActionResult>(result);
+        //}

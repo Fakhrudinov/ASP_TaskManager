@@ -1,9 +1,12 @@
-﻿using MetricsManager;
-using MetricsManager.Controllers;
+﻿using MetricsManager.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using Xunit;
+using Microsoft.Extensions.Logging;
+using Moq;
+using System.Collections.Generic;
+using MetricsManager.DAL;
+using MetricsManager;
 
 namespace MetricsManagerTests
 {
@@ -11,11 +14,13 @@ namespace MetricsManagerTests
     {
         private AgentsController controller;
         private List<AgentInfo> _registeredAgents = new List<AgentInfo>();
+        private Mock<ILogger<AgentsController>> logger;
 
         public UnitTestAgentController()
         {
             _registeredAgents.Add(new AgentInfo());
-            controller = new AgentsController(_registeredAgents);
+            logger = new Mock<ILogger<AgentsController>>();
+            controller = new AgentsController(_registeredAgents, logger.Object);
         }
 
         [Fact]

@@ -2,76 +2,85 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Xunit;
+using Microsoft.Extensions.Logging;
+using Moq;
+using System.Collections.Generic;
+using MetricsManager.DAL;
 
 namespace MetricsManagerTests
 {
     public class RamControllerUnitTests
     {
         private RamMetricsController controller;
+        private Mock<IRamMetricsRepository> mock;
+        private Mock<ILogger<RamMetricsController>> logger;
 
         public RamControllerUnitTests()
         {
-            controller = new RamMetricsController();
+            mock = new Mock<IRamMetricsRepository>();
+            logger = new Mock<ILogger<RamMetricsController>>();
+            controller = new RamMetricsController(logger.Object, mock.Object);
         }
 
         [Fact]
-        public void GetMetricsFromAgent_ReturnsOk()
+        public void GetMetricsFromAgentIdTimeToTime_ReturnsOk()
         {
             //Arrange
             var agentId = 1;
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
+            var fromTime = DateTimeOffset.FromUnixTimeSeconds(10);
+            var toTime = DateTimeOffset.FromUnixTimeSeconds(100);
 
             //Act
-            var result = controller.GetMetricsFromAgent(agentId, fromTime, toTime);
+            var result = controller.GetMetricsFromAgentIdTimeToTime(agentId, fromTime, toTime);
 
             // Assert
             _ = Assert.IsAssignableFrom<IActionResult>(result);
         }
 
         [Fact]
-        public void GetMetricsByPercentileFromAgent_ReturnsOk()
+        public void GetMetricsFromAllClusterTimeToTime_ReturnsOk()
         {
             //Arrange
-            var agentId = 1;
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
-            var percentile = MetricsManager.Percentile.P95;
+            var fromTime = DateTimeOffset.FromUnixTimeSeconds(10);
+            var toTime = DateTimeOffset.FromUnixTimeSeconds(100);
 
             //Act
-            var result = controller.GetMetricsByPercentileFromAgent(agentId, fromTime, toTime, percentile);
+            var result = controller.GetMetricsFromAllClusterTimeToTime(fromTime, toTime);
 
             // Assert
             _ = Assert.IsAssignableFrom<IActionResult>(result);
         }
 
-        [Fact]
-        public void GetMetricsFromAllCluster_ReturnsOk()
-        {
-            //Arrange
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
+        //[Fact]
+        //public void GetMetricsByPercentileFromAgent_ReturnsOk()
+        //{
+        //    //Arrange
+        //    var agentId = 1;
+        //    var fromTime = TimeSpan.FromSeconds(0);
+        //    var toTime = TimeSpan.FromSeconds(100);
+        //    var percentile = MetricsManager.Percentile.P95;
 
-            //Act
-            var result = controller.GetMetricsFromAllCluster(fromTime, toTime);
+        //    //Act
+        //    var result = controller.GetMetricsByPercentileFromAgent(agentId, fromTime, toTime, percentile);
 
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
-        }
+        //    // Assert
+        //    _ = Assert.IsAssignableFrom<IActionResult>(result);
+        //}
 
-        [Fact]
-        public void GetMetricsByPercentileFromAllCluster_ReturnsOk()
-        {
-            //Arrange
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
-            var percentile = MetricsManager.Percentile.P95;
 
-            //Act
-            var result = controller.GetMetricsByPercentileFromAllCluster(fromTime, toTime, percentile);
+        //[Fact]
+        //public void GetMetricsByPercentileFromAllCluster_ReturnsOk()
+        //{
+        //    //Arrange
+        //    var fromTime = TimeSpan.FromSeconds(0);
+        //    var toTime = TimeSpan.FromSeconds(100);
+        //    var percentile = MetricsManager.Percentile.P95;
 
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
-        }
+        //    //Act
+        //    var result = controller.GetMetricsByPercentileFromAllCluster(fromTime, toTime, percentile);
+
+        //    // Assert
+        //    _ = Assert.IsAssignableFrom<IActionResult>(result);
+        //}
     }
 }
