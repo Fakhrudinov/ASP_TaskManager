@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using MetricsManager.DAL;
 using MetricsManager.Responses;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 
 namespace MetricsManager.Controllers
 {
@@ -43,7 +43,6 @@ namespace MetricsManager.Controllers
             {
                 foreach (var metric in metrics)
                 {
-                    //response.Metrics.Add(new Responses.CpuMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
                     response.Metrics.Add(mapper.Map<Responses.CpuMetricDto>(metric));
                 }
             }
@@ -76,24 +75,7 @@ namespace MetricsManager.Controllers
             return Ok(response);
         }
 
-        //[HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}/percentiles/{percentile}")]
-        //public IActionResult GetMetricsByPercentileFromAgent(
-        //    [FromRoute] int agentId, 
-        //    [FromRoute] TimeSpan fromTime, 
-        //    [FromRoute] TimeSpan toTime,
-        //    [FromRoute] Percentile percentile)
-        //{
-        //    return Ok();
-        //}
 
-        //[HttpGet("cluster/from/{fromTime}/to/{toTime}/percentiles/{percentile}")]
-        //public IActionResult GetMetricsByPercentileFromAllCluster(
-        //    [FromRoute] TimeSpan fromTime, 
-        //    [FromRoute] TimeSpan toTime,
-        //    [FromRoute] Percentile percentile)
-        //{
-        //    return Ok();
-        //}
     }
 }
 

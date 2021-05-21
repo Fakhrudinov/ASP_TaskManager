@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Quartz;
 using Quartz.Spi;
 
-namespace MetricsAgent.Jobs
+namespace MetricsManager.DataAccessLayer.Jobs.JobsSchedule
 {
     public class QuartzHostedService : IHostedService
     {
@@ -65,5 +65,5 @@ namespace MetricsAgent.Jobs
                 .Build();
         }
     }
-
 }
+

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using MetricsManager.DAL;
 using MetricsManager.Responses;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 
 namespace MetricsManager.Controllers
 {

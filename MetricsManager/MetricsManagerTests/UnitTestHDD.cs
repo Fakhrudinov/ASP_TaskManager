@@ -4,9 +4,8 @@ using System;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System.Collections.Generic;
-using MetricsManager.DAL;
 using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 
 namespace MetricsManagerTests
 {

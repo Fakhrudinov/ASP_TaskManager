@@ -1,7 +1,8 @@
 ﻿using System;
 
-namespace MetricsAgent.Jobs
-{    public class JobSchedule
+namespace MetricsManager.DataAccessLayer.Jobs.JobsSchedule
+{
+    public class JobSchedule
     {
         public JobSchedule(Type jobType, string cronExpression)
         {
