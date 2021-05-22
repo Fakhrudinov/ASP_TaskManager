@@ -495,3 +495,171 @@
 2021-05-01 18:59:48.1070 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
 2021-05-01 18:59:48.1070 Info Adding target ConsoleTarget(Name=lifetimeConsole)
 2021-05-01 18:59:48.1744 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:23:16.9628 Info Message Template Auto Format enabled
+2021-05-03 14:23:17.0117 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:23:17.1940 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:23:17.2103 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:23:17.2103 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:23:17.2103 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:23:17.2596 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:32:07.9789 Info Message Template Auto Format enabled
+2021-05-03 14:32:08.0100 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:32:08.0761 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:32:08.0859 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:32:08.0859 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:32:08.0859 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:32:08.1556 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:38:36.2376 Info Message Template Auto Format enabled
+2021-05-03 14:38:36.2518 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:38:36.3211 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:38:36.3211 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:38:36.3211 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:38:36.3323 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:38:36.3696 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:40:47.2428 Info Message Template Auto Format enabled
+2021-05-03 14:40:47.2583 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:40:47.3139 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:40:47.3259 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:40:47.3259 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:40:47.3259 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:40:47.3927 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:44:09.8100 Info Message Template Auto Format enabled
+2021-05-03 14:44:09.8579 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:44:09.9833 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:44:09.9981 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:44:09.9981 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:44:09.9981 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:44:10.0428 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:46:31.3113 Info Message Template Auto Format enabled
+2021-05-03 14:46:31.3264 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:46:31.4123 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:46:31.4123 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:46:31.4123 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:46:31.4263 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:46:31.4676 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:51:45.2053 Info Message Template Auto Format enabled
+2021-05-03 14:51:45.2211 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:51:45.2961 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:51:45.3047 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:51:45.3047 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:51:45.3047 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:51:45.3704 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:54:44.0432 Info Message Template Auto Format enabled
+2021-05-03 14:54:44.0560 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:54:44.1012 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:54:44.1012 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:54:44.1012 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:54:44.1012 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:54:44.1459 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:56:35.0645 Info Message Template Auto Format enabled
+2021-05-03 14:56:35.0778 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:56:35.1267 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:56:35.1367 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:56:35.1367 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:56:35.1367 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:56:35.1736 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:58:05.4271 Info Message Template Auto Format enabled
+2021-05-03 14:58:05.4659 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:58:05.5235 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:58:05.5235 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:58:05.5235 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:58:05.5385 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:58:05.5897 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 14:58:50.3702 Info Message Template Auto Format enabled
+2021-05-03 14:58:50.3912 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 14:58:50.4577 Info Adding target FileTarget(Name=allfile)
+2021-05-03 14:58:50.4577 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 14:58:50.4577 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 14:58:50.4577 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 14:58:50.5040 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 15:23:34.8360 Info Message Template Auto Format enabled
+2021-05-03 15:23:34.8482 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 15:23:34.9014 Info Adding target FileTarget(Name=allfile)
+2021-05-03 15:23:34.9014 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 15:23:34.9014 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 15:23:34.9108 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 15:23:34.9417 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 15:34:55.8602 Info Message Template Auto Format enabled
+2021-05-03 15:34:55.9170 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 15:34:55.9699 Info Adding target FileTarget(Name=allfile)
+2021-05-03 15:34:55.9793 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 15:34:55.9793 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 15:34:55.9793 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 15:34:56.0137 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-03 15:39:32.6813 Info Message Template Auto Format enabled
+2021-05-03 15:39:32.6933 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-03 15:39:32.7379 Info Adding target FileTarget(Name=allfile)
+2021-05-03 15:39:32.7379 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-03 15:39:32.7379 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-03 15:39:32.7379 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-03 15:39:32.7848 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 08:54:55.1766 Info Message Template Auto Format enabled
+2021-05-04 08:54:55.1979 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 08:54:55.3925 Info Adding target FileTarget(Name=allfile)
+2021-05-04 08:54:55.3925 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 08:54:55.3925 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 08:54:55.3925 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 08:54:55.4371 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 08:57:17.6597 Info Message Template Auto Format enabled
+2021-05-04 08:57:17.6871 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 08:57:17.7455 Info Adding target FileTarget(Name=allfile)
+2021-05-04 08:57:17.7573 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 08:57:17.7573 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 08:57:17.7573 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 08:57:17.8332 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 08:59:23.7990 Info Message Template Auto Format enabled
+2021-05-04 08:59:23.8128 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 08:59:23.8796 Info Adding target FileTarget(Name=allfile)
+2021-05-04 08:59:23.8917 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 08:59:23.8917 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 08:59:23.8917 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 08:59:23.9863 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 08:59:56.5761 Info Message Template Auto Format enabled
+2021-05-04 08:59:56.5986 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 08:59:56.6494 Info Adding target FileTarget(Name=allfile)
+2021-05-04 08:59:56.6580 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 08:59:56.6580 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 08:59:56.6580 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 08:59:56.6918 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 09:01:58.3320 Info Message Template Auto Format enabled
+2021-05-04 09:01:58.3483 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 09:01:58.4028 Info Adding target FileTarget(Name=allfile)
+2021-05-04 09:01:58.4284 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 09:01:58.4284 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 09:01:58.4373 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 09:01:58.4801 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 09:04:02.9958 Info Message Template Auto Format enabled
+2021-05-04 09:04:03.0075 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 09:04:03.0566 Info Adding target FileTarget(Name=allfile)
+2021-05-04 09:04:03.0731 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 09:04:03.0731 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 09:04:03.0786 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 09:04:03.1614 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 09:12:16.5658 Info Message Template Auto Format enabled
+2021-05-04 09:12:16.5781 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 09:12:16.6267 Info Adding target FileTarget(Name=allfile)
+2021-05-04 09:12:16.6421 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 09:12:16.6421 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 09:12:16.6421 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 09:12:16.6788 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 15:48:12.2883 Info Message Template Auto Format enabled
+2021-05-04 15:48:12.3269 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 15:48:12.4074 Info Adding target FileTarget(Name=allfile)
+2021-05-04 15:48:12.4074 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 15:48:12.4074 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 15:48:12.4239 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 15:48:12.4812 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 15:49:49.8005 Info Message Template Auto Format enabled
+2021-05-04 15:49:49.8132 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 15:49:49.8634 Info Adding target FileTarget(Name=allfile)
+2021-05-04 15:49:49.8634 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 15:49:49.8634 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 15:49:49.8755 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 15:49:49.9333 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config
+2021-05-04 15:50:34.5055 Info Message Template Auto Format enabled
+2021-05-04 15:50:34.5175 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-04 15:50:34.5641 Info Adding target FileTarget(Name=allfile)
+2021-05-04 15:50:34.5641 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-04 15:50:34.5641 Warn Skipping unrecognized property 'tolower=true` for ${level} (NLog.LayoutRenderers.LevelLayoutRenderer)
+2021-05-04 15:50:34.5641 Info Adding target ConsoleTarget(Name=lifetimeConsole)
+2021-05-04 15:50:34.6057 Info Validating config: TargetNames=allfile, lifetimeConsole, ownFile-web, ConfigItems=65, FilePath=E:\Downloads\Обучение\C#\DZ_Repozitoriy\ASP_TaskManager\ASP_TaskManager\MetricsManager\MetricsAgent\bin\Debug\netcoreapp3.1\nlog.config

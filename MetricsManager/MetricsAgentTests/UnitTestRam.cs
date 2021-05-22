@@ -7,6 +7,7 @@ using Xunit;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace MetricsAgentTests
 {
@@ -15,12 +16,13 @@ namespace MetricsAgentTests
         private RamMetricsController controller;
         private Mock<IRamMetricsRepository> mock;
         private Mock<ILogger<RamMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public UnitTestRam()
         {
             mock = new Mock<IRamMetricsRepository>();
             logger = new Mock<ILogger<RamMetricsController>>();
-            controller = new RamMetricsController(logger.Object, mock.Object);
+            controller = new RamMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]
