@@ -5,32 +5,40 @@ using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Collections.Generic;
-using MetricsManager.DAL;
-using MetricsManager;
+using MetricsManager.DTO;
+using MetricsManager.DataAccessLayer.Repository;
 
 namespace MetricsManagerTests
 {
     public class UnitTestAgentController
     {
-        private AgentsController controller;
-        private List<AgentInfo> _registeredAgents = new List<AgentInfo>();
-        private Mock<ILogger<AgentsController>> logger;
+        private AgentsController _controller;
+        private Mock<ILogger<AgentsController>> _logger;
+        private Mock<IAgentsRepository> _repository;
+
 
         public UnitTestAgentController()
         {
-            _registeredAgents.Add(new AgentInfo());
-            logger = new Mock<ILogger<AgentsController>>();
-            controller = new AgentsController(_registeredAgents, logger.Object);
+            _logger = new Mock<ILogger<AgentsController>>();
+            _repository = new Mock<IAgentsRepository>();
+            _controller = new AgentsController(_logger.Object, _repository.Object);
         }
 
         [Fact]
         public void RegisterAgent_ReturnsOk()
         {
-            //Arrange
-            // ??
+            _repository.Setup(repo => repo.RegisterAgent(new Agent())).Verifiable();
+            var result = _controller.RegisterAgent(new Agent());
 
-            //Act
-            var result = controller.RegisterAgent(_registeredAgents[0]);
+            // Assert
+            _ = Assert.IsAssignableFrom<IActionResult>(result);
+        }
+
+        [Fact]
+        public void RemoveAgent_ReturnsOk()
+        {
+            _repository.Setup(repo => repo.RemoveAgent(new Agent())).Verifiable();
+            var result = _controller.DeleteAgent(new Agent());
 
             // Assert
             _ = Assert.IsAssignableFrom<IActionResult>(result);
@@ -38,27 +46,10 @@ namespace MetricsManagerTests
 
 
         [Fact]
-        public void EnableAgentById_ReturnsOk()
+        public void GetAllAgentsList_ReturnsOk()
         {
-            //Arrange
-            // ??
-
-            //Act
-            var result = controller.EnableAgentById(_registeredAgents[0].AgentId);
-
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
-        }
-
-
-        [Fact]
-        public void DisableAgentById_ReturnsOk()
-        {
-            //Arrange
-            // ??
-
-            //Act
-            var result = controller.DisableAgentById(_registeredAgents[0].AgentId);
+            _repository.Setup(repo => repo.GetAllAgentsList()).Returns(new List<Agent>()).Verifiable();
+            var result = _controller.GetAllAgentsList();
 
             // Assert
             _ = Assert.IsAssignableFrom<IActionResult>(result);

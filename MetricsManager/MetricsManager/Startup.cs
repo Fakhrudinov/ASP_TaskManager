@@ -3,8 +3,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MetricsManager.DAL;
-using System.Data.SQLite;
+using AutoMapper;
+using FluentMigrator.Runner;
+using Quartz.Spi;
+using Quartz;
+using MetricsManager.Jobs;
+using Quartz.Impl;
+using MetricsManager.DataAccessLayer.Jobs.JobsSchedule;
+using MetricsManager.Client;
+using System;
+using Polly;
+using MetricsManager.DataAccessLayer.Repository;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
 
 namespace MetricsManager
 {
@@ -21,73 +33,95 @@ namespace MetricsManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            ConfigureSqlLiteConnection(services);
-            services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
-            services.AddScoped<IDotNetMetricsRepository, DotNetMetricsRepository>();
-            services.AddScoped<IHddMetricsRepository, HddMetricsRepository>();
-            services.AddScoped<INetWorkMetricsRepository, NetWorkMetricsRepository>();
-            services.AddScoped<IRamMetricsRepository, RamMetricsRepository>();
-        }
 
-        private void ConfigureSqlLiteConnection(IServiceCollection services)
-        {
-            var connection = new SQLiteConnection(DataBaseConnectionSettings.ConnectionString);
-            connection.Open();
-            PrepareSchema(connection);
-        }
+            var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
 
-        private void PrepareSchema(SQLiteConnection connection)
-        {
-            using (var command = new SQLiteCommand(connection))
+            services.AddSingleton<IAgentsRepository, AgentsRepository>();
+            services.AddSingleton<IMetricsAgentClient, MetricsAgentClient>();
+            services.AddSingleton<ICpuMetricsRepository, CpuMetricsRepository>();
+            services.AddSingleton<IDotNetMetricsRepository, DotNetMetricsRepository>();
+            services.AddSingleton<IHddMetricsRepository, HddMetricsRepository>();
+            services.AddSingleton<INetWorkMetricsRepository, NetWorkMetricsRepository>();
+            services.AddSingleton<IRamMetricsRepository, RamMetricsRepository>();
+
+            services.AddFluentMigratorCore().ConfigureRunner
+                (
+                    rb => rb
+                    .AddSQLite() // добавл€ем поддержку SQLite       
+                    .WithGlobalConnectionString(DataBaseManagerConnectionSettings.ConnectionString) // устанавливаем строку подключени€
+                    .ScanIn(typeof(Startup).Assembly).For.Migrations() // подсказываем где искать классы с миграци€ми
+                )
+                .AddLogging
+                    (
+                        lb => lb
+                        .AddFluentMigratorConsole()
+                    );
+
+            // add job services
+            services.AddSingleton<IJobFactory, SingletonJobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+
+            // добавл€ем конкретные задачи сбора метрик
+            services.AddSingleton<CpuMetricJob>();
+            services.AddSingleton<DotNetMetricJob>();
+            services.AddSingleton<HddMetricJob>();
+            services.AddSingleton<NetWorkMetricJob>();
+            services.AddSingleton<RamMetricJob>();
+
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(CpuMetricJob),
+                cronExpression: "0/5 * * * * ?")); // http://www.quartz-scheduler.org/api/2.1.7/org/quartz/CronExpression.html
+            services.AddSingleton(new JobSchedule(jobType: typeof(NetWorkMetricJob), cronExpression: "0/5 * * * * ?"));
+            services.AddSingleton(new JobSchedule(jobType: typeof(DotNetMetricJob), cronExpression: "0/5 * * * * ?"));
+            services.AddSingleton(new JobSchedule(jobType: typeof(HddMetricJob), cronExpression: "0/5 * * * * ?"));
+            services.AddSingleton(new JobSchedule(jobType: typeof(RamMetricJob), cronExpression: "0/5 * * * * ?"));
+
+            services.AddHostedService<QuartzHostedService>();
+
+            services.AddHttpClient<IMetricsAgentClient, MetricsAgentClient>()
+                .AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(1000)));
+
+            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
             {
-                string[] tableNames = new string[]
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    "cpumetrics",
-                    "dotnetmetrics",
-                    "hddmetrics",
-                    "networkmetrics",
-                    "rammetrics"
-                };
-
-                // удал€ем таблицы с метриками если уже существует в базе данных
-                foreach (string name in tableNames)
-                {
-                    command.CommandText = $"DROP TABLE IF EXISTS {name};";
-                    command.ExecuteNonQuery();
-                }
-
-                //добавл€ем новые таблицы
-                foreach (string name in tableNames)
-                {
-                    command.CommandText = $"CREATE TABLE {name}(id INTEGER PRIMARY KEY, value INT, time BIGINT);";
-                    command.ExecuteNonQuery();
-                }
-
-                //добавим тестовые данные в таблицы
-                byte valueShifter = 0;//дл€ различи€ в данных
-                foreach (string name in tableNames)
-                {
-                    for (int i = 0; i < 60; i += 5)
+                    Version = "v1",
+                    Title = "API сервиса агента сбора метрик",
+                    Description = "ќписание",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
                     {
-                        long time = System.DateTimeOffset.Parse("2021-05-01 00:" + i + ":00-00:00").ToUnixTimeSeconds();
-
-                        command.CommandText = $"INSERT INTO {name}(value, time) VALUES({i + valueShifter},{time});";
-                        command.ExecuteNonQuery();
+                        Name = "‘ахрудинов јлександр",
+                        Email = "asbuka@gmail.com",
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Open Source",
                     }
-                    valueShifter++;
-                }
-            }
+                });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMigrationRunner migrationRunner)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API сервиса агента сбора метрик");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 
@@ -97,6 +131,9 @@ namespace MetricsManager
             {
                 endpoints.MapControllers();
             });
+
+            // запускаем миграции
+            migrationRunner.MigrateUp();
         }
     }
 }

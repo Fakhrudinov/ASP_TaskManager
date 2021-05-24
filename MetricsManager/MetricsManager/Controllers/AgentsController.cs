@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using MetricsManager.DAL;
-using MetricsManager.Responses;
-using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using MetricsManager.DataAccessLayer.Repository;
+using MetricsManager.DTO;
 
 namespace MetricsManager.Controllers
 {
@@ -11,47 +10,81 @@ namespace MetricsManager.Controllers
     [ApiController]
     public class AgentsController : ControllerBase
     {
-        private readonly List<AgentInfo> _registeredAgents;
         private readonly ILogger<AgentsController> _logger;
+        private readonly IAgentsRepository _repository;
 
-        public AgentsController(List<AgentInfo> registeredAgents, ILogger<AgentsController> logger)
+        public AgentsController(ILogger<AgentsController> logger, IAgentsRepository repository)
         {
-            _registeredAgents = registeredAgents;
+            _repository = repository;
             _logger = logger;
             _logger.LogDebug(1, "NLog встроен в AgentsController");
         }
 
+        /// <summary>
+        /// Добавляем нового агента в список зарегистрированных в системе агентов. Адрес подключения должен быть уникален. Id агента - не используется
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///    /api/Agents/register
+        /// 
+        /// <example>
+        /// JSON in body:
+        ///<code>
+        ///     {
+        ///         "AgentAddress": "http://localhost:5070"
+        ///     }
+        ///</code>
+        /// </example>
+        /// </remarks>
+        /// <param name="agent"></param>
 
         [HttpPost("register")]
-        public IActionResult RegisterAgent([FromBody] AgentInfo agentInfo)
+        public IActionResult RegisterAgent([FromBody] Agent agent)
         {
-            _logger.LogTrace($"{DateTime.Now.ToString("HH: mm:ss: fffffff")}: AgentsController/api/register: AgentID={agentInfo.AgentId}, AgentAdress={agentInfo.AgentAddress}");
-            _registeredAgents.Add(agentInfo);
-            return Ok();
-        }
-
-        [HttpPut("enable/{agentId}")]
-        public IActionResult EnableAgentById([FromRoute] int agentId)
-        {
-            _logger.LogTrace($"{DateTime.Now.ToString("HH: mm:ss: fffffff")}: AgentsController/api/enable/{agentId}");
+            _logger.LogTrace($"{DateTime.Now.ToString("HH: mm:ss: fffffff")}: AgentsController/register: AgentAdress={agent.AgentAddress}");
+            _repository.RegisterAgent(agent);
 
             return Ok();
         }
 
-        [HttpPut("disable/{agentId}")]
-        public IActionResult DisableAgentById([FromRoute] int agentId)
+        /// <summary>
+        /// Удаляем агента из зарегистрированных в системе агентов. Удаление происходит по адресу подключения ранее добавленного агента.  Id агента - не используется
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///    /api/Agents/delete
+        /// 
+        /// <example>
+        /// JSON in body:
+        ///<code>
+        ///     {
+        ///         "AgentAddress": "http://localhost:5070"
+        ///     }
+        ///</code>
+        /// </example>
+        /// </remarks>
+        /// <param name="agent"></param>
+        [HttpPost("delete")]
+        public IActionResult DeleteAgent([FromBody] Agent agent)
         {
-            _logger.LogTrace($"{DateTime.Now.ToString("HH: mm:ss: fffffff")}: AgentsController/api/disable/{agentId}");
-
+            _logger.LogTrace($"{DateTime.Now.ToString("HH: mm:ss: fffffff")}: AgentsController/delete: AgentAdress={agent.AgentAddress}");
+            _repository.RemoveAgent(agent);
             return Ok();
         }
 
+        /// <summary>
+        /// Получить всех зарегистрированных в системе агентов.
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///    /api/Agents/getAgentsList
+        /// </remarks>
         [HttpGet("getAgentsList")]
-        public IActionResult ListAgents()
+        public IActionResult GetAllAgentsList()
         {
-            _logger.LogTrace($"{DateTime.Now.ToString("HH: mm:ss: fffffff")}: AgentsController/api/getAgentsList");
-
-            return Ok(_registeredAgents.ToArray());
+            _logger.LogTrace($"{DateTime.Now.ToString("HH: mm:ss: fffffff")}: AgentsController/GetAllAgentsList");
+            var agentList = _repository.GetAllAgentsList();
+            return Ok(agentList);   
         }
     }
 }

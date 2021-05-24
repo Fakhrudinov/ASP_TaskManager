@@ -4,8 +4,10 @@ using System;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
+using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 using System.Collections.Generic;
-using MetricsManager.DAL;
+using MetricsManager;
 
 namespace MetricsManagerTests
 {
@@ -14,12 +16,13 @@ namespace MetricsManagerTests
         private RamMetricsController controller;
         private Mock<IRamMetricsRepository> mock;
         private Mock<ILogger<RamMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public RamControllerUnitTests()
         {
             mock = new Mock<IRamMetricsRepository>();
             logger = new Mock<ILogger<RamMetricsController>>();
-            controller = new RamMetricsController(logger.Object, mock.Object);
+            controller = new RamMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]
@@ -29,12 +32,13 @@ namespace MetricsManagerTests
             var agentId = 1;
             var fromTime = DateTimeOffset.FromUnixTimeSeconds(10);
             var toTime = DateTimeOffset.FromUnixTimeSeconds(100);
+            mock.Setup(a => a.GetMetricsFromAgentIdTimeToTime(agentId, 10, 100)).Returns(new List<RamMetric>()).Verifiable();
 
             //Act
             var result = controller.GetMetricsFromAgentIdTimeToTime(agentId, fromTime, toTime);
-
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            //Assert
+            mock.Verify(repository => repository.GetMetricsFromAgentIdTimeToTime(1, 10, 100), Times.AtMostOnce());
+            logger.Verify();
         }
 
         [Fact]
@@ -43,12 +47,13 @@ namespace MetricsManagerTests
             //Arrange
             var fromTime = DateTimeOffset.FromUnixTimeSeconds(10);
             var toTime = DateTimeOffset.FromUnixTimeSeconds(100);
+            mock.Setup(a => a.GetMetricsFromAllClusterTimeToTime(10, 100)).Returns(new List<RamMetric>()).Verifiable();
 
             //Act
             var result = controller.GetMetricsFromAllClusterTimeToTime(fromTime, toTime);
-
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            //Assert
+            mock.Verify(repository => repository.GetMetricsFromAgentIdTimeToTime(1, 10, 100), Times.AtMostOnce());
+            logger.Verify();
         }
 
         //[Fact]

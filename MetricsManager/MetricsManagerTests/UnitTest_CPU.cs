@@ -4,8 +4,10 @@ using System;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
+using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 using System.Collections.Generic;
-using MetricsManager.DAL;
+using MetricsManager;
 
 namespace MetricsManagerTests
 {
@@ -14,12 +16,13 @@ namespace MetricsManagerTests
         private CpuMetricsController controller;
         private Mock<ICpuMetricsRepository> mock;
         private Mock<ILogger<CpuMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public CpuControllerUnitTests()
         {
             mock = new Mock<ICpuMetricsRepository>();
             logger = new Mock<ILogger<CpuMetricsController>>();
-            controller = new CpuMetricsController(logger.Object, mock.Object);
+            controller = new CpuMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]
@@ -29,12 +32,13 @@ namespace MetricsManagerTests
             var agentId = 1;
             var fromTime = DateTimeOffset.FromUnixTimeSeconds(10);
             var toTime = DateTimeOffset.FromUnixTimeSeconds(100);
+            mock.Setup(a => a.GetMetricsFromAgentIdTimeToTime(agentId, 10, 100)).Returns(new List<CpuMetric>()).Verifiable();
 
             //Act
             var result = controller.GetMetricsFromAgentIdTimeToTime(agentId, fromTime, toTime);
-
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            //Assert
+            mock.Verify(repository => repository.GetMetricsFromAgentIdTimeToTime(1, 10, 100), Times.AtMostOnce());
+            logger.Verify();
         }
 
 
@@ -44,44 +48,14 @@ namespace MetricsManagerTests
             //Arrange
             var fromTime = DateTimeOffset.FromUnixTimeSeconds(10);
             var toTime = DateTimeOffset.FromUnixTimeSeconds(100);
+            mock.Setup(a => a.GetMetricsFromAllClusterTimeToTime(10, 100)).Returns(new List<CpuMetric>()).Verifiable();
 
             //Act
             var result = controller.GetMetricsFromAllClusterTimeToTime(fromTime, toTime);
-
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            //Assert
+            mock.Verify(repository => repository.GetMetricsFromAgentIdTimeToTime(1, 10, 100), Times.AtMostOnce());
+            logger.Verify();
         }
-
-        //[Fact]
-        //public void GetMetricsByPercentileFromAgent_ReturnsOk()
-        //{
-        //    //Arrange
-        //    var agentId = 1;
-        //    var fromTime = TimeSpan.FromSeconds(0);
-        //    var toTime = TimeSpan.FromSeconds(100);
-        //    var percentile = MetricsManager.Percentile.P95;
-
-        //    //Act
-        //    var result = controller.GetMetricsByPercentileFromAgent(agentId, fromTime, toTime, percentile);
-
-        //    // Assert
-        //    _ = Assert.IsAssignableFrom<IActionResult>(result);
-        //}
-
-        //[Fact]
-        //public void GetMetricsByPercentileFromAllCluster_ReturnsOk()
-        //{
-        //    //Arrange
-        //    var fromTime = TimeSpan.FromSeconds(0);
-        //    var toTime = TimeSpan.FromSeconds(100);
-        //    var percentile = MetricsManager.Percentile.P95;
-
-        //    //Act
-        //    var result = controller.GetMetricsByPercentileFromAllCluster(fromTime, toTime, percentile);
-
-        //    // Assert
-        //    _ = Assert.IsAssignableFrom<IActionResult>(result);
-        //}
     }
 }
 
