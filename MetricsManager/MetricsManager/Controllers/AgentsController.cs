@@ -20,6 +20,24 @@ namespace MetricsManager.Controllers
             _logger.LogDebug(1, "NLog встроен в AgentsController");
         }
 
+        /// <summary>
+        /// Добавляем нового агента в список зарегистрированных в системе агентов. Адрес подключения должен быть уникален. Id агента - не используется
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///    /api/Agents/register
+        /// 
+        /// <example>
+        /// JSON in body:
+        ///<code>
+        ///     {
+        ///         "AgentAddress": "http://localhost:5070"
+        ///     }
+        ///</code>
+        /// </example>
+        /// </remarks>
+        /// <param name="agent"></param>
+
         [HttpPost("register")]
         public IActionResult RegisterAgent([FromBody] Agent agent)
         {
@@ -29,6 +47,23 @@ namespace MetricsManager.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Удаляем агента из зарегистрированных в системе агентов. Удаление происходит по адресу подключения ранее добавленного агента.  Id агента - не используется
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///    /api/Agents/delete
+        /// 
+        /// <example>
+        /// JSON in body:
+        ///<code>
+        ///     {
+        ///         "AgentAddress": "http://localhost:5070"
+        ///     }
+        ///</code>
+        /// </example>
+        /// </remarks>
+        /// <param name="agent"></param>
         [HttpPost("delete")]
         public IActionResult DeleteAgent([FromBody] Agent agent)
         {
@@ -37,6 +72,13 @@ namespace MetricsManager.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Получить всех зарегистрированных в системе агентов.
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///    /api/Agents/getAgentsList
+        /// </remarks>
         [HttpGet("getAgentsList")]
         public IActionResult GetAllAgentsList()
         {

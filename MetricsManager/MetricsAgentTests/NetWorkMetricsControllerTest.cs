@@ -11,14 +11,14 @@ using AutoMapper;
 
 namespace MetricsAgentTests
 {
-    public class UnitTestNetWork
+    public class NetWorkMetricsControllerTest
     {
         private NetWorkMetricsController controller;
         private Mock<INetWorkMetricsRepository> mock;
         private Mock<ILogger<NetWorkMetricsController>> logger;
         private readonly IMapper mapper;
 
-        public UnitTestNetWork()
+        public NetWorkMetricsControllerTest()
         {
             mock = new Mock<INetWorkMetricsRepository>();
             logger = new Mock<ILogger<NetWorkMetricsController>>();
@@ -28,20 +28,16 @@ namespace MetricsAgentTests
         [Fact]
         public void GetFromTimeToTime_Test()
         {
-            // Arrange
-            var returnList = new List<NetWorkMetric>();
-            mock.Setup(repository => repository.GetFromTimeToTime(
-                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds(),
-                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds()))
-                .Returns(returnList);
+            //Arrange
+            DateTimeOffset fromTime = DateTimeOffset.FromUnixTimeSeconds(5);
+            DateTimeOffset toTime = DateTimeOffset.FromUnixTimeSeconds(10);
+            mock.Setup(a => a.GetFromTimeToTime(5, 10)).Returns(new List<NetWorkMetric>()).Verifiable();
 
-            // Act
-            IActionResult result = controller.GetFromTimeToTime(
-                DateTimeOffset.FromUnixTimeSeconds(10).ToUniversalTime(),
-                DateTimeOffset.FromUnixTimeSeconds(100).ToUniversalTime());
-
-            // Assert
-            mock.Verify(repository => repository.GetFromTimeToTime(10, 100), Times.AtLeastOnce());
+            //Act
+            var result = controller.GetFromTimeToTime(fromTime, toTime);
+            //Assert
+            mock.Verify(repository => repository.GetFromTimeToTime(5, 10), Times.AtMostOnce());
+            logger.Verify();
         }
 
         //[Fact]

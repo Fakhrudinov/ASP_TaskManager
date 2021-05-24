@@ -11,14 +11,14 @@ using AutoMapper;
 
 namespace MetricsAgentTests
 {
-    public class UnitTestCPU
+    public class CpuMetricsControllerTest
     {
         private CpuMetricsController controller;
         private Mock<ICpuMetricsRepository> mock;
         private Mock<ILogger<CpuMetricsController>> logger;
         private readonly IMapper mapper;
 
-        public UnitTestCPU()
+        public CpuMetricsControllerTest()
         {
             mock = new Mock<ICpuMetricsRepository>();
             logger = new Mock<ILogger<CpuMetricsController>>();
@@ -28,36 +28,16 @@ namespace MetricsAgentTests
         [Fact]
         public void GetFromTimeToTime_Test()
         {
-            // Arrange
-            var returnList = new List<CpuMetric>();
+            //Arrange
+            DateTimeOffset fromTime = DateTimeOffset.FromUnixTimeSeconds(5);
+            DateTimeOffset toTime = DateTimeOffset.FromUnixTimeSeconds(10);
+            mock.Setup(a => a.GetFromTimeToTime(5, 10)).Returns(new List<CpuMetric>()).Verifiable();
 
-            // необязательно. задается ниже в ассерте repository.GetFromTimeToTime(10, 20)
-            //returnList.Add(new CpuMetric
-            //{
-            //    Id = 0,
-            //    Value = 111,
-            //    Time = DateTimeOffset.FromUnixTimeSeconds(10)
-            //});
-
-            //returnList.Add(new CpuMetric
-            //{
-            //    Id = 1,
-            //    Value = 222,
-            //    Time = DateTimeOffset.FromUnixTimeSeconds(20)
-            //});
-
-            mock.Setup(repository => repository.GetFromTimeToTime(
-                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds(), 
-                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds()))
-                .Returns(returnList);
-
-            //// Act
-            IActionResult result = controller.GetFromTimeToTime(
-                DateTimeOffset.FromUnixTimeSeconds(10),
-                DateTimeOffset.FromUnixTimeSeconds(20));
-
-            // Assert
-            mock.Verify(repository => repository.GetFromTimeToTime(10, 20), Times.AtLeastOnce());
+            //Act
+            var result = controller.GetFromTimeToTime(fromTime, toTime);
+            //Assert
+            mock.Verify(repository => repository.GetFromTimeToTime(5, 10), Times.AtMostOnce());
+            logger.Verify();
         }
 
 

@@ -14,6 +14,9 @@ using MetricsManager.Client;
 using System;
 using Polly;
 using MetricsManager.DataAccessLayer.Repository;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.IO;
 
 namespace MetricsManager
 {
@@ -79,6 +82,30 @@ namespace MetricsManager
 
             services.AddHttpClient<IMetricsAgentClient, MetricsAgentClient>()
                 .AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(1000)));
+
+            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "API сервиса агента сбора метрик",
+                    Description = "Описание",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Фахрудинов Александр",
+                        Email = "asbuka@gmail.com",
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Open Source",
+                    }
+                });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IMigrationRunner migrationRunner)
@@ -88,7 +115,13 @@ namespace MetricsManager
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API сервиса агента сбора метрик");
+                c.RoutePrefix = string.Empty;
+            });
 
             app.UseRouting();
 

@@ -24,6 +24,19 @@ namespace MetricsManager.Controllers
             this.mapper = mapper;
         }
 
+        /// <summary>
+        /// Запрос метрик CPU (занятость в % всех процессоров системы агента) на заданном диапазоне времени от указанного агента. 
+        /// Время указывается как DateTimeOffset. Параметры указываются в пути запроса (FromRoute)
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///     api/cpumetrics/agent/1/from/2021-05-19T03:15:00/to/2021-05-20T16:30:00
+        /// </remarks>
+        /// <param name="agentId">Идентификатор агента</param>
+        /// <param name="fromTime">начальная метрика времени</param>
+        /// <param name="toTime">конечная метрика времени</param>
+        /// <returns>Список метрик, которые были сохранены в заданном диапазоне времени</returns>
+        /// <response code="200">Если все хорошо</response>
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgentIdTimeToTime(
             [FromRoute] int agentId, 
@@ -39,17 +52,26 @@ namespace MetricsManager.Controllers
                 Metrics = new List<Responses.CpuMetricDto>()
             };
 
-            if (metrics != null)
+            foreach (var metric in metrics)
             {
-                foreach (var metric in metrics)
-                {
-                    response.Metrics.Add(mapper.Map<Responses.CpuMetricDto>(metric));
-                }
+                response.Metrics.Add(mapper.Map<Responses.CpuMetricDto>(metric));
             }
 
             return Ok(response);
         }
 
+        /// <summary>
+        /// Запрос метрик CPU (занятость в % всех процессоров системы агента) на заданном диапазоне времени от всех агентов. 
+        /// Время указывается как DateTimeOffset. Параметры указываются в пути запроса (FromRoute)
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///     api/cpumetrics/cluster/from/2021-05-19T03:15:00/to/2021-05-20T16:30:00
+        /// </remarks>
+        /// <param name="fromTime">начальная метрика времени</param>
+        /// <param name="toTime">конечная метрика времени</param>
+        /// <returns>Список метрик, которые были сохранены в заданном диапазоне времени</returns>
+        /// <response code="200">Если все хорошо</response>
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllClusterTimeToTime(
             [FromRoute] DateTimeOffset fromTime,
@@ -64,12 +86,9 @@ namespace MetricsManager.Controllers
                 Metrics = new List<Responses.CpuMetricDto>()
             };
 
-            if (metrics != null)
+            foreach (var metric in metrics)
             {
-                foreach (var metric in metrics)
-                {
-                    response.Metrics.Add(mapper.Map<Responses.CpuMetricDto>(metric));
-                }
+                response.Metrics.Add(mapper.Map<Responses.CpuMetricDto>(metric));
             }
 
             return Ok(response);

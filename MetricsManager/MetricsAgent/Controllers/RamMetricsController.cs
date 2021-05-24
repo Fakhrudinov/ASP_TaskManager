@@ -36,13 +36,10 @@ namespace MetricsAgent.Controllers
                 Metrics = new List<Responses.RamMetricDto>()
             };
 
-            if (metrics != null)
+            foreach (var metric in metrics)
             {
-                foreach (var metric in metrics)
-                {
-                    //response.Metrics.Add(new Responses.RamMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
-                    response.Metrics.Add(mapper.Map<Responses.RamMetricDto>(metric));
-                }
+                //response.Metrics.Add(new Responses.RamMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                response.Metrics.Add(mapper.Map<Responses.RamMetricDto>(metric));
             }
 
             return Ok(response);

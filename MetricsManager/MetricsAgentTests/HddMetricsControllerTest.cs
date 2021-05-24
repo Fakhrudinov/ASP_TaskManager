@@ -11,14 +11,14 @@ using AutoMapper;
 
 namespace MetricsAgentTests
 {
-    public class UnitTestHdd
+    public class HddMetricsControllerTest
     {
         private HddMetricsController controller;
         private Mock<IHddMetricsRepository> mock;
         private Mock<ILogger<HddMetricsController>> logger;
         private readonly IMapper mapper;
 
-        public UnitTestHdd()
+        public HddMetricsControllerTest()
         {
             mock = new Mock<IHddMetricsRepository>();
             logger = new Mock<ILogger<HddMetricsController>>();
@@ -28,20 +28,16 @@ namespace MetricsAgentTests
         [Fact]
         public void GetFromTimeToTime_Test()
         {
-            // Arrange
-            var returnList = new List<HddMetric>();
-            mock.Setup(repository => repository.GetFromTimeToTime(
-                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds(),
-                It.IsAny<DateTimeOffset>().ToUnixTimeSeconds()))
-                .Returns(returnList);
+            //Arrange
+            DateTimeOffset fromTime = DateTimeOffset.FromUnixTimeSeconds(5);
+            DateTimeOffset toTime = DateTimeOffset.FromUnixTimeSeconds(10);
+            mock.Setup(a => a.GetFromTimeToTime(5, 10)).Returns(new List<HddMetric>()).Verifiable();
 
-            // Act
-            IActionResult result = controller.GetFromTimeToTime(
-                DateTimeOffset.FromUnixTimeSeconds(10).ToUniversalTime(),
-                DateTimeOffset.FromUnixTimeSeconds(100).ToUniversalTime());
-
-            // Assert
-            mock.Verify(repository => repository.GetFromTimeToTime(10, 100), Times.AtLeastOnce());
+            //Act
+            var result = controller.GetFromTimeToTime(fromTime, toTime);
+            //Assert
+            mock.Verify(repository => repository.GetFromTimeToTime(5, 10), Times.AtMostOnce());
+            logger.Verify();
         }
 
         //[Fact]
