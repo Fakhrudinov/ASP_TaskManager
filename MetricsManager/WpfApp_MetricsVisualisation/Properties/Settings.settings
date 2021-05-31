@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WpfApp_MetricsVisualisation.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="dotsOnChart" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">31</Value>
+    </Setting>
+    <Setting Name="urlPart1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:5080</Value>
+    </Setting>
+    <Setting Name="urlPart2" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">api</Value>
+    </Setting>
+    <Setting Name="urlPart4" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">from</Value>
+    </Setting>
+    <Setting Name="urlPart5" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">to</Value>
+    </Setting>
+    <Setting Name="agentID" Type="System.String" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="urlPart3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">metrics/agent</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

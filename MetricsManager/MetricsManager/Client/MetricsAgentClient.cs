@@ -20,8 +20,8 @@ namespace MetricsManager.Client
 
         public HddMetricsResponse GetAllHddMetrics(GetAllHddMetricsApiRequest request)
         {
-            var fromParameter = request.FromTime.LocalDateTime.ToString("O");
-            var toParameter = request.ToTime.LocalDateTime.ToString("O");
+            var fromParameter = request.FromTime.UtcDateTime.ToString("O");
+            var toParameter = request.ToTime.UtcDateTime.ToString("O");
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{request.ClientBaseAddress}/api/hddmetrics/from/{fromParameter}/to/{toParameter}");
             try
@@ -45,8 +45,8 @@ namespace MetricsManager.Client
         
         public RamMetricsResponse GetAllRamMetrics(GetAllRamMetricsApiRequest request)
         {
-            var fromParameter = request.FromTime.LocalDateTime.ToString("O");
-            var toParameter = request.ToTime.LocalDateTime.ToString("O");
+            var fromParameter = request.FromTime.UtcDateTime.ToString("O");
+            var toParameter = request.ToTime.UtcDateTime.ToString("O");
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{request.ClientBaseAddress}/api/rammetrics/from/{fromParameter}/to/{toParameter}");
             try
@@ -70,8 +70,8 @@ namespace MetricsManager.Client
 
         public CpuMetricsResponse GetAllCpuMetrics(GetAllCpuMetricsApiRequest request)
         {
-            var fromParameter = request.FromTime.LocalDateTime.ToString("O");
-            var toParameter = request.ToTime.LocalDateTime.ToString("O");
+            var fromParameter = request.FromTime.UtcDateTime.ToString("O");
+            var toParameter = request.ToTime.UtcDateTime.ToString("O");
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{request.ClientBaseAddress}/api/cpumetrics/from/{fromParameter}/to/{toParameter}");
             try
@@ -95,8 +95,8 @@ namespace MetricsManager.Client
 
         public NetWorkMetricsResponse GetAllNetWorkMetrics(GetAllNetWorkMetricsApiRequest request)
         {
-            var fromParameter = request.FromTime.LocalDateTime.ToString("O");
-            var toParameter = request.ToTime.LocalDateTime.ToString("O");
+            var fromParameter = request.FromTime.UtcDateTime.ToString("O");
+            var toParameter = request.ToTime.UtcDateTime.ToString("O");
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{request.ClientBaseAddress}/api/networkmetrics/from/{fromParameter}/to/{toParameter}");
             try
@@ -120,8 +120,8 @@ namespace MetricsManager.Client
 
         public DotNetMetricsResponse GetAllDotNetMetrics(GetAllDotNetMetricsApiRequest request)
         {
-            var fromParameter = request.FromTime.LocalDateTime.ToString("O");
-            var toParameter = request.ToTime.LocalDateTime.ToString("O");
+            var fromParameter = request.FromTime.UtcDateTime.ToString("O");
+            var toParameter = request.ToTime.UtcDateTime.ToString("O");
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{request.ClientBaseAddress}/api/dotnetmetrics/from/{fromParameter}/to/{toParameter}");
             try

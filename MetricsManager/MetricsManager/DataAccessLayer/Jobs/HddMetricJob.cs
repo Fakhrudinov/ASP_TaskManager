@@ -36,6 +36,7 @@ namespace MetricsManager.Jobs
             foreach (var agent in allAgentsList)
             {
                 var fromTime = _repository.GetLastTimeFromAgent(agent.AgentId);
+                fromTime = fromTime.AddSeconds(1);// need to fix data duplication 
                 var toTime = DateTimeOffset.UtcNow;
 
                 try
