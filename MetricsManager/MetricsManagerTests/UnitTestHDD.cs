@@ -4,8 +4,11 @@ using System;
 using Xunit;
 using Microsoft.Extensions.Logging;
 using Moq;
+using AutoMapper;
+using MetricsManager.DataAccessLayer.Repository;
 using System.Collections.Generic;
-using MetricsManager.DAL;
+using MetricsManager;
+
 namespace MetricsManagerTests
 {
     public class UnitTestHDD
@@ -13,12 +16,13 @@ namespace MetricsManagerTests
         private HddMetricsController controller;
         private Mock<IHddMetricsRepository> mock;
         private Mock<ILogger<HddMetricsController>> logger;
+        private readonly IMapper mapper;
 
         public UnitTestHDD()
         {
             mock = new Mock<IHddMetricsRepository>();
             logger = new Mock<ILogger<HddMetricsController>>();
-            controller = new HddMetricsController(logger.Object, mock.Object);
+            controller = new HddMetricsController(logger.Object, mock.Object, mapper);
         }
 
         [Fact]
@@ -28,12 +32,13 @@ namespace MetricsManagerTests
             var agentId = 1;
             var fromTime = DateTimeOffset.FromUnixTimeSeconds(10);
             var toTime = DateTimeOffset.FromUnixTimeSeconds(100);
+            mock.Setup(a => a.GetMetricsFromAgentIdTimeToTime(agentId, 10, 100)).Returns(new List<HddMetric>()).Verifiable();
 
             //Act
             var result = controller.GetMetricsFromAgentIdTimeToTime(agentId, fromTime, toTime);
-
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            //Assert
+            mock.Verify(repository => repository.GetMetricsFromAgentIdTimeToTime(1, 10, 100), Times.AtMostOnce());
+            logger.Verify();
         }
 
         [Fact]
@@ -42,12 +47,13 @@ namespace MetricsManagerTests
             //Arrange
             var fromTime = DateTimeOffset.FromUnixTimeSeconds(10);
             var toTime = DateTimeOffset.FromUnixTimeSeconds(100);
+            mock.Setup(a => a.GetMetricsFromAllClusterTimeToTime(10, 100)).Returns(new List<HddMetric>()).Verifiable();
 
             //Act
             var result = controller.GetMetricsFromAllClusterTimeToTime(fromTime, toTime);
-
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            //Assert
+            mock.Verify(repository => repository.GetMetricsFromAgentIdTimeToTime(1, 10, 100), Times.AtMostOnce());
+            logger.Verify();
         }
 
         //[Fact]

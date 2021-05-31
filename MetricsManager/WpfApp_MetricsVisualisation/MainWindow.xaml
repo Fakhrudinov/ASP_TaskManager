@@ -1,0 +1,33 @@
+﻿<Window x:Class="WpfApp_MetricsVisualisation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp_MetricsVisualisation.ChartControls"
+        mc:Ignorable="d"
+        Title="Metric Monitor" Height="800" Width="1100">
+    <Grid ShowGridLines="False">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <local:ChartDotNet Grid.Column="0" Grid.Row="0" x:Name="DotNetChart" Margin="10,0"></local:ChartDotNet>
+        <local:ChartRam Grid.Column="1" Grid.Row="0" x:Name="RamChart" Margin="10,0"></local:ChartRam>
+        <local:ChartNetWork Grid.Column="0" Grid.Row="1" x:Name="NetWorkChart" Margin="10,0"></local:ChartNetWork>
+        <local:ChartCPU Grid.Column="1" Grid.Row="1" x:Name="CpuChart" Margin="10,0"></local:ChartCPU>
+
+        <DockPanel Grid.Column="0" Grid.Row="2"  Grid.ColumnSpan="2">            
+            <Button  x:Name="buttonStart" Width="200" Height="30" Click="Button_Click" Content="Request agent data" Margin="10,0" DockPanel.Dock="Right"/>
+            <xctk:IntegerUpDown Name="upDownControlAgentID" Value="1" Increment="1" Height="30" Minimum="1" DockPanel.Dock="Right" />
+            <Label Content="Agent ID" Height="30" VerticalAlignment="Center" DockPanel.Dock="Right" Margin="10,0,0,0" />
+            <TextBox x:Name="agentName" Background="White" Margin="10,0,0,0" Height="22">default adress from App.config urlPart1</TextBox>            
+        </DockPanel>
+    </Grid>
+</Window>
